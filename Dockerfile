@@ -17,3 +17,13 @@ RUN wget -O - http://smlnj.cs.uchicago.edu/dist/working/110.81/config.tgz | tar 
 RUN config/install.sh
 
 ENV PATH $SMLROOT/bin:$PATH
+
+## Add Kernel
+
+COPY . $HOME/sml
+WORKDIR $HOME/sml
+
+RUN jupyter kernelspec install kernels/smlnj
+
+WORKDIR $HOME/notebook
+CMD ["jupyter", "notebook", "--no-browser", "--allow-root", "--ip='*'"]
